@@ -1,0 +1,29 @@
+.panel { flex-shrink: 0; background: var(--bg-800); border-bottom: 1px solid var(--border); max-height: 190px; display: flex; flex-direction: column; }
+
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 700; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: .5px; flex-shrink: 0;
+}
+.count { background: var(--bg-600); color: var(--text-2); border-radius: 99px; padding: 1px 7px; font-size: 11px; }
+
+.list { list-style: none; overflow-y: auto; padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+
+.user { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: var(--rs); transition: background .1s; }
+.user:hover { background: var(--bg-700); }
+
+.avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent-dim); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--accent-bright);
+  position: relative; transition: box-shadow .2s;
+}
+.avatar::after { content: attr(data-initial); position: absolute; }
+.inVoice { box-shadow: 0 0 0 2px var(--green); background: #1a3d2e; color: var(--green); }
+
+.name { flex: 1; font-size: 13px; color: var(--text-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mine { color: var(--accent-bright); }
+
+.badges { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }

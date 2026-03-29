@@ -1,0 +1,21 @@
+.panel { flex-shrink: 0; background: var(--bg-800); border-top: 1px solid var(--border); padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+.row   { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.urlForm { display: flex; gap: 8px; flex: 1; min-width: 0; }
+.urlInput { flex: 1; min-width: 0; }
+.err { font-size: 12px; color: var(--red); }
+.seekForm { display: flex; gap: 6px; align-items: center; }
+.seekInput { width: 80px; padding: 6px 10px; font-size: 13px; }
+.hostTag { margin-left: auto; font-size: 12px; color: var(--accent-bright); font-weight: 600; }
+.sharingDot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: blink 1.2s infinite; flex-shrink: 0; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+.sharingText { font-size: 13px; color: var(--text-2); }
+
+.bar { flex-shrink: 0; background: var(--bg-800); border-top: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.barRight { display: flex; gap: 8px; align-items: center; }
+.viewerNote { font-size: 13px; color: var(--text-3); }
+
+@media (max-width: 600px) {
+  .panel { padding: 8px 10px; }
+  .seekInput { width: 64px; }
+  .hostTag { display: none; }
+}
