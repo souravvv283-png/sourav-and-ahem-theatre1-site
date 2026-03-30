@@ -1,8 +1,7 @@
 /**
- * Controls.jsx — v3
- * REMOVED: seek bar (this is a live/watch party app, not a scrubber)
- * KEPT: YouTube URL loader, play/pause, screen share toggle
- * Viewers see: screen share button + ready toggle
+ * Controls.jsx — v3.1
+ * Added: audio instruction banner shown before screen share starts
+ * Removed: seek bar
  */
 import { useState } from 'react';
 import styles from './Controls.module.css';
@@ -25,8 +24,9 @@ export default function Controls({
   isReady, onToggleReady,
   isSharing, onStartShare, onStopShare,
 }) {
-  const [url, setUrl] = useState('');
-  const [err, setErr] = useState('');
+  const [url,         setUrl]         = useState('');
+  const [err,         setErr]         = useState('');
+  const [showAudioTip, setShowAudioTip] = useState(false);
 
   function handleLoad(e) {
     e.preventDefault(); setErr('');
@@ -35,9 +35,19 @@ export default function Controls({
     onSetVideo(id); setUrl('');
   }
 
+  // Show audio tip first, then start sharing
+  function handleStartShare() {
+    setShowAudioTip(true);
+  }
+
+  function confirmShare() {
+    setShowAudioTip(false);
+    onStartShare();
+  }
+
   const shareBtn = isSharing
     ? <button className="btn btn-danger btn-sm" onClick={onStopShare}>⏹ Stop Sharing</button>
-    : <button className="btn btn-secondary btn-sm" onClick={onStartShare}>🖥 Share Screen</button>;
+    : <button className="btn btn-secondary btn-sm" onClick={handleStartShare}>🖥 Share Screen</button>;
 
   // ── Viewer ─────────────────────────────────────────────────────────────────
   if (!isHost) {
@@ -53,6 +63,24 @@ export default function Controls({
             {isReady ? '✓ Ready' : 'Ready?'}
           </button>
         </div>
+
+        {/* Audio tip for viewers too */}
+        {showAudioTip && (
+          <div className={styles.audioTip}>
+            <div className={styles.tipContent}>
+              <span className={styles.tipIcon}>🔊</span>
+              <div>
+                <strong>To share audio:</strong> In the browser picker, check
+                <span className={styles.tipHighlight}> "Share system audio"</span> or
+                <span className={styles.tipHighlight}> "Share tab audio"</span>
+              </div>
+              <div className={styles.tipBtns}>
+                <button className="btn btn-primary btn-sm" onClick={confirmShare}>Got it, continue</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => setShowAudioTip(false)}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -60,6 +88,27 @@ export default function Controls({
   // ── Host ────────────────────────────────────────────────────────────────────
   return (
     <div className={styles.panel}>
+
+      {/* Audio tip banner — shown before screen share picker opens */}
+      {showAudioTip && (
+        <div className={styles.audioTip}>
+          <div className={styles.tipContent}>
+            <span className={styles.tipIcon}>🔊</span>
+            <div className={styles.tipText}>
+              <strong>Want to share audio?</strong> In the next dialog, make sure to check
+              <span className={styles.tipHighlight}> "Share system audio"</span> (Windows Chrome)
+              or <span className={styles.tipHighlight}>"Share tab audio"</span> (Mac/tab share).
+              <br />
+              <span className={styles.tipSub}>Without this, viewers will see your screen but hear no sound.</span>
+            </div>
+            <div className={styles.tipBtns}>
+              <button className="btn btn-primary btn-sm" onClick={confirmShare}>✓ Got it, start sharing</button>
+              <button className="btn btn-secondary btn-sm" onClick={() => setShowAudioTip(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* YouTube URL row */}
       <div className={styles.row}>
         <form className={styles.urlForm} onSubmit={handleLoad}>
@@ -79,7 +128,7 @@ export default function Controls({
 
       {err && <p className={styles.err}>{err}</p>}
 
-      {/* Playback controls (YouTube mode only) */}
+      {/* YouTube playback controls */}
       {!isSharing && (
         <div className={styles.row}>
           <button className="btn btn-primary btn-sm"   onClick={onPlay}>▶ Play</button>
@@ -88,7 +137,7 @@ export default function Controls({
         </div>
       )}
 
-      {/* Screen share active indicator */}
+      {/* Screen sharing active row */}
       {isSharing && (
         <div className={styles.row}>
           <span className={styles.dot} />
