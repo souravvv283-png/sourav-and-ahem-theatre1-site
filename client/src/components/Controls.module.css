@@ -11,18 +11,40 @@
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: blink 1.2s infinite; flex-shrink: 0; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 .sharingText { font-size: 13px; color: var(--text-2); }
-
+ 
+/* Audio tip banner */
+.audioTip {
+  background: rgba(250, 166, 26, 0.1);
+  border: 1px solid rgba(250, 166, 26, 0.4);
+  border-radius: var(--rs);
+  padding: 12px 14px;
+  margin-bottom: 2px;
+}
+.tipContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tipIcon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.tipText { flex: 1; min-width: 200px; font-size: 13px; color: var(--text-1); line-height: 1.6; }
+.tipHighlight { color: #faa61a; font-weight: 700; }
+.tipSub { font-size: 12px; color: var(--text-2); }
+.tipBtns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+ 
 /* Viewer bar */
 .bar {
   flex-shrink: 0; background: var(--bg-800);
   border-top: 1px solid var(--border);
-  padding: 10px 16px; display: flex; align-items: center;
-  justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 10px 16px; display: flex; align-items: center; flex-direction: column;
+  gap: 10px;
 }
+.barTop { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; flex-wrap: wrap; }
 .barRight { display: flex; gap: 8px; align-items: center; }
 .viewerNote { font-size: 13px; color: var(--text-3); }
-
+ 
 @media (max-width: 600px) {
   .panel { padding: 8px 10px; }
   .hostTag { display: none; }
+  .tipText { font-size: 12px; }
 }
